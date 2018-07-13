@@ -1,0 +1,201 @@
+<html>
+<head>
+    <title> Jack Gallagher - Assignment </title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.10/vega.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.1.2/vega-lite.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
+   <style>
+       body {
+             font-family: sans-serif;
+           }
+    
+           .vega-actions a {
+             padding: 0.2em;
+           }
+    </style>
+</head>
+<body>
+    <table style="width: 850px; margin-left: auto; margin-right: auto;" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Jack Gallagher</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">X</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://data.gov.ie/dataset/2016-make-model-year-failures-at-nct" target="_blank" rel="noopener">NCT Failure Rates 2016</a>.</p>
+    <p>The Road Safety Authority (RSA) has provided the following information relating to vehicle makes and models tested by the National Car Testing Service in 2016. The main fields, for example, are summarised as follows:<ul><li>"VehicleMake" and "VehicleModel" - these fields detail the vehicles make and model</li><li>"YearOfBirth" - this field details the vehicles year.</li><li>"Total" - this field relates to the total NCT's completed by each car model.</li><li>"PASS" and "PASS %" - these fields relate to the total NCT's that by each car model that were successful.</li><li>"FAIL" and "FAIL %" - these fields relate to the total NCT's that by each car model that were unsuccessful.</li><li>The remaining fields were the different items that the vehicles failed on.</li></ul> Overall this is a broad dataset with a variety of information about the Vehicles which have been tested by the NCT.</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions</strong></td>
+    <td style="vertical-align: top;"><ul style="list-style-type:disc"><li>Is there a relationship between the trend of the three most frequent Fail Items and the Year of the most popular Vehicles?</li></ul></td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" align="center"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "data": {"url": "https://raw.githubusercontent.com/jckglly/InformationVisualisation/master/test1.csv"},
+
+"hconcat": [
+  {
+    "title": {
+      "text": "Lighting and Electrical vs Year of Vehicle",
+      "anchor": "middle"
+    },
+
+    "width": 400,
+    "height": 300,
+
+    "transform":[
+      {"filter": "datum.Total > 1000"}
+    ],
+    
+    "mark": "line",
+    "encoding": {
+
+    "x": {
+      "field": "YearOfBirth", 
+      "type": "temporal", 
+      "axis": {
+          "format": "%Y",
+          "title": "Year of Vehicle"
+      }
+    },
+
+    "y": {
+      "aggregate": "mean",
+      "field": "Lighting and Electrical",
+      "type": "quantitative",
+      "axis": {
+      "grid": false
+      },
+      "scale": {"domain": [0,1000]}
+    },
+      "color": {
+        "value": "firebrick"
+        }
+    },
+    "config": {
+
+        "legend": {
+
+            "values":"Steer"
+        }
+    }
+  },
+  {
+    "width": 400,
+    "height": 300,
+
+    "title": {
+      "text": "Steering and Suspension vs Year of Vehicle",
+      "anchor": "middle"
+    },
+
+    "transform":[
+      {"filter": "datum.Total > 1000"}
+    ],
+    
+    "mark": "line",
+    "encoding": {
+
+    "x": {
+      "field": "YearOfBirth", 
+      "type": "temporal", 
+      "axis": {
+          "format": "%Y",
+          "title": "Year of Vehicle"
+      }
+    },
+
+    "y": {
+      "aggregate": "mean",
+      "field": "Steering and Suspension",
+      "type": "quantitative",
+      "axis": {
+      "grid": false
+      },
+      "scale": {"domain": [0,1000]}
+    },
+      "color": {
+          
+          "value": "green"}
+    }
+  },
+  {
+    "width": 400,
+    "height": 300,
+
+    "title": {
+      "text": "Braking Equipment vs Year of Vehicle",
+      "anchor": "middle"
+    },
+
+    "transform":[
+      {"filter": "datum.Total > 1000"}
+    ],
+    
+    "mark": "line",
+    "encoding": {
+
+    "x": {
+      "field": "YearOfBirth", 
+      "type": "temporal", 
+      "axis": {
+          "format": "%Y",
+          "title": "Year of Vehicle"
+          }
+    },
+
+    "y": {
+      "aggregate": "mean",
+      "field": "Braking Equipment",
+      "type": "quantitative",
+      "axis": {
+      "grid": false
+      },
+      "scale": {"domain": [0,1000]}
+    },
+      "color": {
+        "value": "blue"
+        }
+    }
+  }
+]
+}
+
+
+        vegaEmbed("#vis", yourVlSpec);
+  </script>
+    <hr />
+<table style="width: 850px; margin-left: auto; margin-right: auto;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">This visualisation is showing the trend of the three most frequent fail items: <ol><li>Lighting and Electrical</li><li>Steering and Suspension</li><li>Braking Equipment</li></ol>These three fail items are plotted against the Year of the Vehicle being tested. I used the mean of the respective fail items as it would give a more accurate representation. I defined a model of car to be popular if its sum of total NCT's completed to be greater than 1000.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;">I found this visualisation very interesting for a myriad of reasons. I noticed first of all that there was a similarity in the shape of the Lighting and Electrical vs Year of Vehicle line graph and the Steering and Suspension vs Year of Vehicle lkine graph. The Lighting and Electrical line graph was larger than the others showing that it was the most popular fail item, peaking in Vehicles of the year 2005. In my first visualisation for this assignment, I was able to conclude that the total number of tests were majorly completed by vehicles that were of the years between 2000 to 2008. Thus, it was no surprise to me that the mean of each fail item was higher between these years of vehicles.<p/>Another noticeable insight I gained from this visualisation was the difference in peaks in the Braking Equipment vs Year of Vehicle graph compared to the other two plots. In the first two graphs there is a noticeable peak at the 2008 year of make, whereas there is not a very noticeable peak at the same year for the Braking Equipment graph. I concluded from this that Braking Equipment potentially could have been improved by car manufacturers in their newer models which would explain this.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;"><p/>I have used three seperate line charts to be displayed in this visualisation. I felt this was the most effective way of showing the mean of each respective fail item across the year category of the vehicles tested. I explored the option of using the {repeat} operator to complete this visualisation, however, I wanted each line chart plot to have a different color.<p/>I also explored the option of layering these plots, however, decided against this as it would have no legend to describe what each color line represents. This was due to the seperate fields in the data. I also attempted to use the "calculate" operator in {transform} to solve this problem, however, no solution was found. Overall, I did investigate alternative graphs however I wanted it to be clear to the viewer and thus chose this visualisation. </td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">Only Vehicle Models that have a greater sum of 1000 total NCT's completed are used in the visualisation. I chose this value to categorise "popular vehicle models" as having browsed the data and experimented with other total values in Tableau, this value seemed fair and accurate. </td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

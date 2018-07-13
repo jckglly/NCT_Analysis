@@ -1,0 +1,193 @@
+<html>
+<head>
+    <title> Jack Gallagher - Assignment </title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.10/vega.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.1.2/vega-lite.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
+   <style>
+       body {
+             font-family: sans-serif;
+           }
+    
+           .vega-actions a {
+             padding: 0.2em;
+           }
+    </style>
+</head>
+<body>
+    <table style="width: 850px; margin-left: auto; margin-right: auto;" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Jack Gallagher</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">X</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://data.gov.ie/dataset/2016-make-model-year-failures-at-nct" target="_blank" rel="noopener">NCT Failure Rates 2016</a>.</p>
+    <p>The Road Safety Authority (RSA) has provided the following information relating to vehicle makes and models tested by the National Car Testing Service in 2016. The main fields, for example, are summarised as follows:<ul><li>"VehicleMake" and "VehicleModel" - these fields detail the vehicles make and model</li><li>"YearOfBirth" - this field details the vehicles year.</li><li>"Total" - this field relates to the total NCT's completed by each car model.</li><li>"PASS" and "PASS %" - these fields relate to the total NCT's that by each car model that were successful.</li><li>"FAIL" and "FAIL %" - these fields relate to the total NCT's that by each car model that were unsuccessful.</li><li>The remaining fields were the different items that the vehicles failed on.</li></ul> Overall this is a broad dataset with a variety of information about the Vehicles which have been tested by the NCT.</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions</strong></td>
+    <td style="vertical-align: top;"><ul style="list-style-type:disc"><li>What is the trend of the Mean Pass/Fail percentage for the most popular Vehicle models?</li></ul></td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" align="center"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "data": {"url": "https://raw.githubusercontent.com/jckglly/InformationVisualisation/master/test1.csv"},
+
+  "vconcat": [
+    {
+      "layer": [
+        {
+        "width": 750,
+        "height": 300,
+
+      "title": {
+        "text": "Relationship between the Mean Pass percentage and the Vehicle Make",
+        "anchor": "middle"
+      },
+      "transform":[
+
+        {"filter": "datum.Total > 1000"}
+      ],
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "VehicleMake",
+          "type": "ordinal",
+
+          "sort": {
+              "op": "mean",
+              "field": "PASS %",
+              "order": "descending"
+          },
+        "axis": {
+            "grid": false,
+            "title": "Make of Vehicle"
+          }
+        },
+        "y": {
+          "aggregate": "mean",
+          "field": "PASS %",
+          "type": "quantitative",
+          "axis": {
+            "grid": true,
+            "title": "Mean Pass %"
+          },
+          "scale": {"domain": [0,100]}
+        },
+        "color": {"value": "green"},
+        "opacity": {"value": 0.6}
+          }
+        },
+        {
+          
+        "mark": "rule",
+        "encoding": {
+          "y": {
+            "aggregate": "mean",
+            "field": "PASS %",
+            "type": "quantitative"
+          },
+          "color": {"value": "blue"},
+          "size": {"value": 2}
+        }
+        } 
+      ]
+    },
+
+  {
+    "layer":[
+      {
+        "width": 750,
+      "height": 300,
+    "title": {
+    "text": "Relationship between the Mean Fail percentage and the Vehicle Make",
+    "anchor": "middle"
+    },
+      
+      "transform":[
+
+        {"filter": "datum.Total > 1000"}
+      ],
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "VehicleMake",
+          "type": "ordinal",
+          "sort": {
+              "op": "mean",
+              "field": "FAIL %",
+              "order": "ascending"
+          },
+          "axis": {
+            "grid": false,
+            "title": "Make of Vehicle"
+          }
+        },
+        "y": {
+          "aggregate": "mean",
+          "field": "FAIL %",
+          "type": "quantitative",
+          "axis": {
+            "grid": true,
+            "title": "Mean Fail %"
+          },
+          "scale": {"domain": [0,100]}
+        },
+        "color": {"value": "red"},
+        "opacity": {"value": 0.6}
+      }
+      },
+      {
+        "mark": "rule",
+        "encoding": {
+          "y": {
+            "aggregate": "mean",
+            "field": "FAIL %",
+            "type": "quantitative"
+          },
+          "color": {"value": "blue"},
+          "size": {"value": 2}
+        }
+      }
+    ]
+  }
+  ]
+}
+
+        vegaEmbed("#vis", yourVlSpec);
+  </script>
+    <hr />
+<table style="width: 850px; margin-left: auto; margin-right: auto;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">These are two bar chart plots that show the trend of:<ol><li>The mean pass percentage of a Make of Vehicle sorted in descending order.</li><li>The mean fail percentage of a Make of Vehicle sorted in ascending order.</li></ol>I defined a model of car to be popular if its sum of total NCT's completed to be greater than 1000.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;">In general, it can be seen from the visualisations that KIA have the highest mean pass percentage at roughly 65%. It was interesting to see that only seven car makes have an mean pass percentage greater than 50%. FIAT had the lowest mean pass percentage of roughly 35% and therfore has the highest mean fail percentage as shown in the second part in the visualisation. I was surprised by how big a margin KIA has over other Vehicle Makes in relation to their mean pass percentage. I have also included a blue marker of the overall mean percentage of pass/fail for the most popular vehicles. This marker gives a good indication to the viewer about which of the vehicle makes have a decent chance of passing the NCT.<p/></td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;"><p/>I have used two seperate bar chart plots vertically concatenated as my visualisation for multiple reasons. First of all, bar charts very effective at conveying quantitative information. Secondly, having explored options of layering the two bar charts, I found that the colour overlap between the bar chart did not aid the visualisation. I explored multiple colour schemes to make it easier to understand to a viewer, however found that concatenating the two plots vertically was still the best visualisation overall. I also attempted to stack the bar charts like a similar visualisation I created in Tableau but was not able to do this in Vega Lite.</p>In conclusion, I think that the data is represented clearly and concisely in this visualisation and answers my initial question effectively. The green/red colour scheme in combination with the decreased opacity is easily recognisabl eand the grid lines also help reading the mean pass/fail percentage from the bar chart plots. The blue marker allows the viewer to see immediately which vehicle makes are above/below the overall mean pass/fail percentage.</td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">Only Vehicle Models that have a greater sum of 1000 total NCT's completed are used in the visualisation. I chose this value to categorise "popular vehicle models" as having browsed the data and experimented with other total values in Tableau, this value seemed fair and accurate. </td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<html>
+<head>
+    <title> Jack Gallagher - Assignment </title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.10/vega.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.1.2/vega-lite.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
+   <style>
+       body {
+             font-family: sans-serif;
+           }
+    
+           .vega-actions a {
+             padding: 0.2em;
+           }
+    </style>
+</head>
+<body>
+    <table style="width: 850px; margin-left: auto; margin-right: auto;" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Name:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Jack Gallagher</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Number:</strong></td>
+    <td style="vertical-align: top;">X</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://data.gov.ie/dataset/2016-make-model-year-failures-at-nct" target="_blank" rel="noopener">NCT Failure Rates 2016</a>.</p>
+    <p>The Road Safety Authority (RSA) has provided the following information relating to vehicle makes and models tested by the National Car Testing Service in 2016. The main fields, for example, are summarised as follows:<ul><li>"VehicleMake" and "VehicleModel" - these fields detail the vehicles make and model</li><li>"YearOfBirth" - this field details the vehicles year.</li><li>"Total" - this field relates to the total NCT's completed by each car model.</li><li>"PASS" and "PASS %" - these fields relate to the total NCT's that by each car model that were successful.</li><li>"FAIL" and "FAIL %" - these fields relate to the total NCT's that by each car model that were unsuccessful.</li><li>The remaining fields were the different items that the vehicles failed on.</li></ul> Overall this is a broad dataset with a variety of information about the Vehicles which have been tested by the NCT.</p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions:</strong></td>
+    <td style="vertical-align: top;"><ul style="list-style-type:disc"><li>Whats the relationship between the year of the vehicle and its average pass percentage rate?</li><li>Does the total amount of NCT tests completed have any impact on this?</li>  </ul></td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" align="center"></div>
+  <script type="text/javascript">
+    var yourVlSpec =  {
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+  "data": {"url": "https://raw.githubusercontent.com/jckglly/InformationVisualisation/master/test1.csv"},
+  "title": {
+    "text": "Relationship between Mean Pass percentage, Total NCT's completed and the Year of the Vehicle",
+    "anchor": "middle"
+  },
+    "width": 750,
+  "height": 400,
+"layer": [
+    {
+    "transform": [
+    {"filter": "datum.Total > 100"}
+    ],
+
+    "mark": "line",
+    "encoding": {
+    "x": {"field": "YearOfBirth","type": "nominal"},
+    "y": {
+        "field": "PASS %",
+        "type": "quantitative", 
+        "aggregate": "mean",
+        "axis": {
+            "grid": true,
+            "title":"Mean Pass %"
+        },
+         "scale": {"domain": [0,100]}
+    },
+    "color":{
+      "value": "green"
+    }
+    }
+  },
+  {
+    "transform": [
+    {"filter": "datum.Total > 100"}
+    ],
+
+    "mark": "bar",
+    "encoding": {
+    "x": {
+        "field": "YearOfBirth",
+        "type": "nominal",
+        "axis": {
+            "grid": false,
+            "title":"Year of Vehicle"
+        }
+        },
+    "y": {
+        "field": "Total",
+        "type": "quantitative", 
+        "aggregate":"sum",
+        "axis": {
+            "grid": true,
+            "title":"Total NCT's completed"
+        },
+        "scale": {"domain": [0,200000]}
+    },
+    "opacity":{"value":0.6}
+    }
+  }
+],
+ "resolve": {"scale": {"y": "independent"}}
+}
+
+
+        vegaEmbed("#vis", yourVlSpec);
+  </script>
+    <hr />
+<table style="width: 850px; margin-left: auto; margin-right: auto;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">This layered plot with dual-axis has two layers which show:<ol><li>The relationship between the year of the vehicle and its average pass percentage rate shown by a line graph.</li><li>The trend of the total number NCT tests taken by cars of a certain year shown by the bar chart.</li></ol></td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;">In general, it can be concluded from this visualisation that newer vehicles have a greater average Pass percentage rate than those that are older. This can be seen by the gradual upwards trend in the line graph.<p/> My initial question also included if the total amount of NCT's completed by cars with a specific year of birth had any effect on this trend. It can be seen that the average Pass percent rate increases has a more gradual rate of increase when there have been a large of NCT's completed by cars of a certain year. This effect is only slight but is present nonetheless. <p/></td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations</strong></td>
+<td style="vertical-align: top;">I have used a layered plot with dual-axis as I feel it is the only appropriate way to represent these two relationships accurately and concisely. I chose a line chart plot as a layer to represent the gradually increasing pass percent average as it does this effectively while choosing it to have a green color scheme as it would be a familiar color association for a pass percentage to the viewer. I chose a bar chart to represent the sum of total NCT's taken in relation to the car year as it represents this quantitative data effectively.<p/>I decreased the opacity of the bar chart as I wanted the visualisation to fully represent the rate of increase of the average pass percent successfully to the viewer i.e the slope difference when the bar chart is high vs when the bar chart is low. I believe that the layering of these plots and the dual axis is easy to read and impactful. I improved the labeling of each axis to make it more clear what it represents.<p/></td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">Only Vehicle Models that have a greater sum of 100 total NCT'S completed are used in the visualisation. Having investigated the value of Total NCT's tests completed(field=Total) in Tableau, I concluded that any model of car that has over 100 total tests completed would give an accurate representation for the data as a whole. This removes any models of cars that have a high Pass percentage but have a low total sum.</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
