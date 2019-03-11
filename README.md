@@ -1,5 +1,5 @@
 # NCT_Analysis
-This is a project I completed that analyses the failure rates of the NCT.
+This is a project I completed that looks at the failure rates of the NCT.
 
 The Road Safety Authority (RSA) has provided the following information relating to vehicle makes and models tested by the National Car Testing Service in 2016. The main fields, for example, are summarised as follows:
 - "VehicleMake" and "VehicleModel" - these fields detail the vehicles make and model
